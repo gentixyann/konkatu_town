@@ -1,0 +1,32 @@
+html {
+  font-size: 100%;
+}
+
+body {
+  color: #333;
+  line-height: 1.5;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+a:hover {
+  opacity: .5;
+}
+
+img {
+  max-width: 100%;
+}
+
+.wrapper {
+  max-width: 1136px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.container {
+
+}
