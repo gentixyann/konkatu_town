@@ -2,6 +2,7 @@
   <div class="wrapper">
     <p>ホーム</p>
     <NuxtLink to="/register">登録</NuxtLink>
+    <NuxtLink to="/login">ログイン</NuxtLink>
   </div>
 </template>
 

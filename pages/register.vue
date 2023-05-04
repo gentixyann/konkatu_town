@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Register</h2>
-    <form @submit.prevent="register">
+    <form @submit.prevent="onSubmit">
       <div>
         <label for="email">Email</label>
         <input type="email" id="email" v-model="email" required />
@@ -17,8 +17,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { auth } from "~/plugins/firebase.js";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { mapActions } from "vuex";
 
 export default Vue.extend({
   mounted() {},
@@ -29,9 +28,13 @@ export default Vue.extend({
     };
   },
   methods: {
-    async register() {
+    ...mapActions(["register"]),
+    async onSubmit() {
       try {
-        await createUserWithEmailAndPassword(auth, this.email, this.password);
+        await this.register({
+          email: this.email,
+          password: this.password,
+        });
         this.$router.push("/");
       } catch (error) {
         console.error(error);
