@@ -1,12 +1,13 @@
 <template>
-  <div class="wrapper">ホームです</div>
+  <div class="wrapper">
+    <p>ホーム</p>
+    <NuxtLink to="/register">登録</NuxtLink>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 export default Vue.extend({
-  mounted() {
-    console.log(process.env.API_KEY);
-  },
+  mounted() {},
 });
 </script>
