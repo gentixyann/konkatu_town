@@ -1,5 +1,5 @@
 
-import { initializeApp, getApps } from 'firebase/app'
+import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 
@@ -12,10 +12,9 @@ const firebaseConfig = {
   appId: process.env.APP_ID,
   measurementId: process.env.MEASUREMENT_ID
 }
-const apps = getApps()
-const firebaseApp = !apps.length ? initializeApp(firebaseConfig) : apps[0]
+const firebaseApp = initializeApp(firebaseConfig);
 
-const db = getFirestore(firebaseApp, {})
-const auth = getAuth(firebaseApp, {})
+const db = getFirestore(firebaseApp);
+const auth = getAuth(firebaseApp);
 
 export { db, auth }
