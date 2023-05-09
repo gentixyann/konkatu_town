@@ -1,35 +1,49 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
-import { auth } from "~/plugins/firebase.js";
+import Vuex, { GetterTree, MutationTree, ActionTree } from 'vuex';
+import { auth, db } from "~/plugins/firebase.js";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from 'firebase/firestore';
+import { RegisterUser, User } from "~/models/type";
 
 Vue.use(Vuex);
 
-interface User {
-  email: string;
-  password: string;
+interface State {
+  user: User | null;
 }
 
-const store = () => new Vuex.Store({
-  state: {
-    user: null as User | null,
+export const state = () => ({
+  user: null,
+})
+
+export type RootState = ReturnType<typeof state>
+
+
+export const getters: GetterTree<RootState, RootState> = {
+  options: state => state.user,
+}
+
+export const mutations: MutationTree<RootState> = {
+  setUser(state: State, user: User) {
+    state.user = user;
   },
-  mutations: {
-    setUser(state, user: User) {
-      state.user = user;
-    },
-  },
-  actions: {
-    // アカウント登録
-    async register({ commit }, user: User) {
+}
+
+export const actions: ActionTree<RootState, RootState> = {
+    async register({ commit }, user: RegisterUser): Promise<void> {
       try {
-        await createUserWithEmailAndPassword(auth, user.email, user.password);
-        commit('setUser', user);
+        const { user: authUser } = await createUserWithEmailAndPassword(auth, user.email, user.password);
+        const userDocRef = doc(db, "users", authUser.uid);
+        const userDoc = {
+          email: user.email,
+          uid: authUser.uid,
+        };
+        await setDoc(userDocRef, userDoc);
+        const userWithUid = { ...user, uid: authUser.uid };
+        commit('setUser', userWithUid);
       } catch (error) {
         console.error(error);
       }
     },
-  },
-});
+}
 
-export default store;
+

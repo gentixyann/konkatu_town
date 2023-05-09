@@ -10,6 +10,9 @@
         <label for="password">Password</label>
         <input type="password" id="password" v-model="password" required />
       </div>
+      <div v-if="errorMessage != ''" style="color: red">
+        {{ errorMessage }}
+      </div>
       <button type="submit">Register</button>
     </form>
   </div>
@@ -20,11 +23,11 @@ import Vue from "vue";
 import { mapActions } from "vuex";
 
 export default Vue.extend({
-  mounted() {},
   data() {
     return {
       email: "",
       password: "",
+      errorMessage: "",
     };
   },
   methods: {
@@ -36,8 +39,10 @@ export default Vue.extend({
           password: this.password,
         });
         this.$router.push("/");
-      } catch (error) {
+      } catch (error: any) {
         console.error(error);
+        console.log("エラーです");
+        this.errorMessage = error.message;
       }
     },
   },
