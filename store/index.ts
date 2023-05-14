@@ -19,7 +19,7 @@ export type RootState = ReturnType<typeof state>
 
 
 export const getters: GetterTree<RootState, RootState> = {
-  options: state => state.user,
+  user: state => state.user,
 }
 
 export const mutations: MutationTree<RootState> = {
